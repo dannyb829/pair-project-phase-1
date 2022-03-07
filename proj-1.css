@@ -1,0 +1,104 @@
+body {
+    position: relative;
+    background: #f7ebcf;
+    margin: 0;
+    font-family: 'Bebas Neue', cursive;;
+    /* height: 220vh; */
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    background: #681212;
+    padding: 0;
+    top: 0px;
+    box-shadow: 0px 5px 20px 5px #4e3b0e;
+}
+
+footer {
+    position: fixed;
+    height: 70px;
+    background-color: #681212;
+    width: 100%;
+    height: 70px;
+    bottom: 0px;
+    box-shadow: 0px -5px 20px 5px #4e3b0e;
+}
+
+#movie-box {
+    position: absolute;
+    height: 400px;
+    width: 50%;
+    top: 200px;
+    left: 25%;
+    border-color: black;
+    border: .001px solid #6c5213;
+    border-radius: 20px;
+    box-shadow: 5px 15px 20px 0px #4e3b0e;
+}
+
+#response-section {
+    position: absolute;
+    width: 100%;
+    height: 13  0px;
+    bottom: 0px;
+}
+
+#thoughts-input {
+    width: 98.5%;
+    height: 30px;
+    outline: none;
+    border-color: #f0dcad;
+    background-color: #f7ebcf;
+}
+
+#thoughts-submit {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    top: 5px;
+    border-radius: 0 0 20px 20px;
+    background-color: #681212;
+    color:wheat;
+
+}
+
+#rate-section {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    bottom: 5px;
+    background-color: #f7ebcf;
+}
+
+#image-box {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%;
+    margin-top: 5%
+}
+
+#change-movie {
+    position: relative;
+    left: 80%;
+    margin-top: 39%;
+}
+
+#movie-title {
+    position: absolute;
+    text-align: center;
+    left: 42%;
+    top: 20%;
+}
+
+.rating-star {
+    height: 30px;
+    width: 30px;
+}
+
+#s1 {
+    margin-left: 35%;
+}
+

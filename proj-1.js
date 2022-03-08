@@ -8,8 +8,11 @@ const movieTextHeader = document.getElementById('movie-title')
 const usernameInput = document.getElementById("username-input");
 const commentInput = document.getElementById("comment-input");
 const commentList = document.getElementById("comment-list");
-const allStars = document.querySelectorAll('.rating-star')
+const allStars = document.querySelectorAll('.rating-star');
+const similarTitlesBox = document.getElementById('similar-titles-box');
+const movieInfoBox = document.getElementById('movie-info-box');
 let imageCount = 0
+let currentMovieNum
 let currentMovieId
 
 
@@ -20,9 +23,9 @@ thoughtsForm.addEventListener('submit',(e) => addComment(e))
 
 
 allStars.forEach(star => star.addEventListener('click', (e) => {
-     const star = e.target
-     const num = parseInt(star.id.replace("s",""), 10)
-     persistStars(currentMovieId, num)
+    const star = e.target
+    const num = parseInt(star.id.replace("s",""), 10)
+    persistStars(currentMovieNum, num)
 }))
 
 
@@ -42,15 +45,17 @@ function getImage(){
     .then(img => {
         postImage(img)
         postComments(img.comments)
-                 })    
+    })    
 } 
 
 
 function postImage(img){
     imageBox.src = img.gifURL
     movieTextHeader.textContent = img.title
-    currentMovieId = img.id
+    currentMovieNum = img.id
+    currentMovieId = img.IMBD
     imageRate(img.rating)
+    getMovieInfo(img.IMBD)
 }
 
 
@@ -74,7 +79,7 @@ function resetStars(){
 function addComment(e) {
     e.preventDefault()
     const li = document.createElement("li");
-    li.innerText = usernameInput.value + ": " + commentInput.value;
+    li.innerText = usernameInput.value + " says: " + commentInput.value;
     commentList.append(li);
     persistComment(li.innerText)
     e.target.reset()
@@ -85,7 +90,7 @@ function persistStars(movie, num){
     fetch(`http://localhost:3000/images/${movie}`, {
         method: 'PATCH',
         headers: {"Content-Type": "application/json",
-                  Accept: "application/json"},
+        Accept: "application/json"},
         body: JSON.stringify(rating)          
     })
     .then(resp => resp.json())
@@ -96,8 +101,8 @@ function persistComment(content){
     fetch('http://localhost:3000/comments', {
         method: "POST",
         headers: {"Content-Type":"application/json",
-                    Accept:"application/json"},
-        body: JSON.stringify({imageId: currentMovieId, content: content})            
+        Accept:"application/json"},
+        body: JSON.stringify({imageId: currentMovieNum, content: content})            
     })
 }
 
@@ -110,5 +115,44 @@ function postComments(comments) {
         const li = document.createElement("li")
         li.textContent = comment.content
         commentList.append(li)
-     })
+    })
+}
+
+function getMovieInfo(movie){
+    let url = `https://api.watchmode.com/v1/title/${movie}/details/?apiKey=5jV1DNGYzAhstZkjnfF0iazOjaiz7MQ4r9y8k0S8`
+    
+    fetch(url, { method: 'Get' })
+    .then((res) => res.json())
+    .then((json) => {
+        plotTODOM(json)
+        getSimilarTitles(json['similar_titles']);
+    });
+}
+
+
+
+function getSimilarTitles (simTitles) {
+    similarTitlesBox.replaceChildren()
+    for(let i = 0; i < 3; i++){
+        fetch(`https://api.watchmode.com/v1/title/${simTitles[i]}/details/?apiKey=5jV1DNGYzAhstZkjnfF0iazOjaiz7MQ4r9y8k0S8`, {method: 'GET'})
+        .then(resp => resp.json())
+        .then(movie => handleSimilarTitles(movie))
+    }
+}
+
+function handleSimilarTitles(movie) {
+    const li = document.createElement('li')
+    const p = document.createElement('p')
+    p.className = 'similar-movie-year'
+    p.textContent = movie.year
+    li.textContent = movie.title
+    li.className = 'similarTitles'
+    li.appendChild(p)
+    similarTitlesBox.append(li)
+}
+const plot = document.getElementById('plot')
+
+function plotTODOM(movie){
+    console.log(movie)
+    plot.textContent = movie['plot_overview']
 }

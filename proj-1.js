@@ -1,12 +1,20 @@
+
+// Grabing the elements we need to operate on
+
 const thoughtsForm = document.querySelector('#thoughts-form')
 const imageBox = document.getElementById('image-box')
-let imageCount = 0
 const cycleButton = document.getElementById('change-movie')
 const movieTextHeader = document.getElementById('movie-title')
 const usernameInput = document.getElementById("username-input");
 const commentInput = document.getElementById("comment-input");
 const commentList = document.getElementById("comment-list");
 const allStars = document.querySelectorAll('.rating-star')
+let imageCount = 0
+let currentMovieId
+
+
+
+// Making all our submitables and clickables clickable and submitable ! 
 
 thoughtsForm.addEventListener('submit',(e) => addComment(e))
 
@@ -14,16 +22,15 @@ thoughtsForm.addEventListener('submit',(e) => addComment(e))
 allStars.forEach(star => star.addEventListener('click', (e) => {
      const star = e.target
      const num = parseInt(star.id.replace("s",""), 10)
-     imageRate(num)
+     persistStars(currentMovieId, num)
 }))
 
 
-thoughtsForm.addEventListener('submit', e => {
-    e.preventDefault()
-
-})
-
 cycleButton.addEventListener('click', getImage)
+
+
+// All our functions, we can definately get clearer more understandable function and variable names
+// for example the getImage should be getMovie and so on
 
 function getImage(){
     imageCount += 1
@@ -32,12 +39,17 @@ function getImage(){
     } 
     fetch(`http://localhost:3000/images/${imageCount}`)
     .then(resp => resp.json())
-    .then(img => postImage(img))
+    .then(img => {
+        postImage(img)
+        postComments(img.comments)
+                 })    
 } 
+
 
 function postImage(img){
     imageBox.src = img.gifURL
     movieTextHeader.textContent = img.title
+    currentMovieId = img.id
     imageRate(img.rating)
 }
 
@@ -50,7 +62,6 @@ function imageRate(n) {
             star.src = './images/fullStar.png'
         }
     })
-    persistStars()
 }
 
 
@@ -65,16 +76,39 @@ function addComment(e) {
     const li = document.createElement("li");
     li.innerText = usernameInput.value + ": " + commentInput.value;
     commentList.append(li);
+    persistComment(li.innerText)
+    e.target.reset()
 }
 
-function persistStars(){
-    const stars = Array.from(allStars).filter(star => star.src === 'http://127.0.0.1:5500/images/fullStar.png').length
-    
+function persistStars(movie, num){
+    const rating = { rating: num}
+    fetch(`http://localhost:3000/images/${movie}`, {
+        method: 'PATCH',
+        headers: {"Content-Type": "application/json",
+                  Accept: "application/json"},
+        body: JSON.stringify(rating)          
+    })
+    .then(resp => resp.json())
+    .then(movie => imageRate(movie.rating))
+}
+
+function persistComment(content){
+    fetch('http://localhost:3000/comments', {
+        method: "POST",
+        headers: {"Content-Type":"application/json",
+                    Accept:"application/json"},
+        body: JSON.stringify({imageId: currentMovieId, content: content})            
+    })
 }
 
 getImage()
 
 
-// fetch('https://tastedive.com/api/similar?=dark+knight')
-// .then(resp => resp.json())
-// .then(data => console.log(data)) 
+function postComments(comments) {
+    commentList.replaceChildren()
+    comments.forEach((comment)=>{
+        const li = document.createElement("li")
+        li.textContent = comment.content
+        commentList.append(li)
+     })
+}

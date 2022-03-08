@@ -1,65 +1,106 @@
-
- {
-     "images":[
-                { "id":1,
-                  "title": "The GodFather part 1",
-                  "gifURL": "https://c.tenor.com/MZXaxlWOCw8AAAAd/the-godfather-someday.gif",
-                  "rating": 3
-                 },
-                 { "id":2,
-                     "title": "The Wolf of Wall Street",
-                     "gifURL": "https://c.tenor.com/DjJza7OPb74AAAAC/wolf-of-wall-street-lets-goo.gif",
-                     "rating": 0
-                 },
-                 { "id":3,
-                     "title": "The Harder They Fall",
-                     "gifURL": "https://c.tenor.com/zgpPMtPbdxQAAAAC/here-we-come-rufus-buck.gif",
-                     "rating": 2
-                 },
-                 { "id":4,
-                     "title": "Back to the Future",
-                     "gifURL": "https://c.tenor.com/GctGuDyWlOMAAAAM/back-to-the-future-back-to-the-past.gif",
-                     "rating": 5
-                 },
-                 { "id":5,
-                     "title": "The Dark Knight",
-                     "gifURL": "https://c.tenor.com/JEH_1guap00AAAAd/heath-ledger-the-joker.gif",
-                     "rating": 0
-                 },
-                 { "id":6,
-                     "title": "The Breakfast Club",
-                     "gifURL": "https://c.tenor.com/AergfjT2w6AAAAAd/fist-pump-success.gif",
-                     "rating": 0
-                 },
-                 { "id":7,
-                     "title": "One Flew Over The Cuckoo's Nest",
-                     "gifURL": "https://c.tenor.com/nHuzJGW3aBUAAAAM/jack-nicholson-laughing.gif",
-                     "rating": 0
-                 },
-                 { "id":8,
-                     "title": "Pulp Fiction",
-                     "gifURL": "https://c.tenor.com/UVsCknSi8V8AAAAM/chorizombi-umma.gif",
-                     "rating": 0
-                 },
-                 { "id":9,
-                     "title": "Raiders of the Lost Ark",
-                     "gifURL": "https://c.tenor.com/4ODJGeIaiKMAAAAC/raiders-of-the-lost-ark-harrison-ford.gif",
-                     "rating": 0
-                 },
-                 { "id":10,
-                     "title": "Shutter Island",
-                     "gifURL": "https://c.tenor.com/t1i2jY5QbPcAAAAM/shutter-island-sad-leo.gif",
-                     "rating": 0
-                 }
-     ],
-     "comments":{
-                   "id":1,
-                   "imageId": 9,
-                   "content": "Great Movie"
-                }
-    
-    
-    
-    
+{
+  "images": [
+    {
+      "id": 1,
+      "title": "The GodFather part 1",
+      "gifURL": "https://c.tenor.com/MZXaxlWOCw8AAAAd/the-godfather-someday.gif",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "title": "The Wolf of Wall Street",
+      "gifURL": "https://c.tenor.com/DjJza7OPb74AAAAC/wolf-of-wall-street-lets-goo.gif",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "title": "The Harder They Fall",
+      "gifURL": "https://c.tenor.com/zgpPMtPbdxQAAAAC/here-we-come-rufus-buck.gif",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "title": "Back to the Future",
+      "gifURL": "https://c.tenor.com/GctGuDyWlOMAAAAM/back-to-the-future-back-to-the-past.gif",
+      "rating": 5
+    },
+    {
+      "id": 5,
+      "title": "The Dark Knight",
+      "gifURL": "https://c.tenor.com/JEH_1guap00AAAAd/heath-ledger-the-joker.gif",
+      "rating": 5
+    },
+    {
+      "id": 6,
+      "title": "The Breakfast Club",
+      "gifURL": "https://c.tenor.com/AergfjT2w6AAAAAd/fist-pump-success.gif",
+      "rating": 1
+    },
+    {
+      "id": 7,
+      "title": "One Flew Over The Cuckoo's Nest",
+      "gifURL": "https://c.tenor.com/nHuzJGW3aBUAAAAM/jack-nicholson-laughing.gif",
+      "rating": 0
+    },
+    {
+      "id": 8,
+      "title": "Pulp Fiction",
+      "gifURL": "https://c.tenor.com/UVsCknSi8V8AAAAM/chorizombi-umma.gif",
+      "rating": 5
+    },
+    {
+      "id": 9,
+      "title": "Raiders of the Lost Ark",
+      "gifURL": "https://c.tenor.com/4ODJGeIaiKMAAAAC/raiders-of-the-lost-ark-harrison-ford.gif",
+      "rating": 5
+    },
+    {
+      "id": 10,
+      "title": "Shutter Island",
+      "gifURL": "https://c.tenor.com/t1i2jY5QbPcAAAAM/shutter-island-sad-leo.gif",
+      "rating": 0
     }
-
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "imageId": 9,
+      "content": "Great Movie"
+    },
+    {
+      "id": 2,
+      "imageId": 9,
+      "content": "This Movie was trash"
+    },
+    {
+      "imageId": 2,
+      "content": "danny: this was great!",
+      "id": 3
+    },
+    {
+      "imageId": 1,
+      "content": "danny: instant classic!",
+      "id": 4
+    },
+    {
+      "imageId": 3,
+      "content": "danny: l'keith stansfeild or however your spell his name, was phenomenal in this movie",
+      "id": 5
+    },
+    {
+      "imageId": 4,
+      "content": "danny: never saw it so idk",
+      "id": 6
+    },
+    {
+      "imageId": 4,
+      "content": "vote4pedro: GOSH",
+      "id": 7
+    },
+    {
+      "imageId": 6,
+      "content": "danny: dont really know",
+      "id": 8
+    }
+  ]
+}

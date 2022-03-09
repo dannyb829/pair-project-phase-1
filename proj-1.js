@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 
 // Grabing the elements we need to operate on
 
@@ -8,11 +9,15 @@ const movieTextHeader = document.getElementById('movie-title')
 const usernameInput = document.getElementById("username-input");
 const commentInput = document.getElementById("comment-input");
 const commentList = document.getElementById("comment-list");
-const allStars = document.querySelectorAll('.rating-star');
+const rateStars = document.querySelectorAll('.rating-star');
+const plot = document.getElementById('plot')
 const similarTitlesBox = document.getElementById('similar-titles-box');
 const movieInfoBox = document.getElementById('movie-info-box');
-let imageCount = 0
+// movieCount for cycling through gifs
+let movieCount = 0
+// currentMovieNum is a reference to the current displaying gif
 let currentMovieNum
+// currentMovieId is a reference to the currently displayed movies IMBD number
 let currentMovieId
 
 
@@ -22,46 +27,45 @@ let currentMovieId
 thoughtsForm.addEventListener('submit',(e) => addComment(e))
 
 
-allStars.forEach(star => star.addEventListener('click', (e) => {
+rateStars.forEach(star => star.addEventListener('click', (e) => {
     const star = e.target
     const num = parseInt(star.id.replace("s",""), 10)
     persistStars(currentMovieNum, num)
 }))
 
 
-cycleButton.addEventListener('click', getImage)
+cycleButton.addEventListener('click', getMovie)
 
 
 // All our functions, we can definately get clearer more understandable function and variable names
-// for example the getImage should be getMovie and so on
 
-function getImage(){
-    imageCount += 1
-    if (imageCount >= 10) {
-        imageCount = 1
+function getMovie(){
+    movieCount += 1
+    if (movieCount >= 10) {
+        movieCount = 1
     } 
-    fetch(`http://localhost:3000/images/${imageCount}`)
+    fetch(`http://localhost:3000/movies/${movieCount}`)
     .then(resp => resp.json())
-    .then(img => {
-        postImage(img)
-        postComments(img.comments)
+    .then(movie => {
+        featureMovie(movie)
+        featureComments(movie.comments)
     })    
 } 
 
 
-function postImage(img){
-    imageBox.src = img.gifURL
-    movieTextHeader.textContent = img.title
-    currentMovieNum = img.id
-    currentMovieId = img.IMBD
-    imageRate(img.rating)
-    getMovieInfo(img.IMBD)
+function featureMovie(movie){
+    imageBox.src = movie.gifURL
+    movieTextHeader.textContent = movie.title
+    currentMovieNum = movie.id
+    currentMovieId = movie.IMBD
+    movieRate(movie.rating)
+    getMovieInfo(movie.IMBD)
 }
 
 
-function imageRate(n) {
+function movieRate(n) {
     resetStars()
-    allStars.forEach((star)=>{
+    rateStars.forEach((star)=>{
         const starNum = parseInt(star.id.replace("s",""), 10)
         if (starNum <= n) {
             star.src = './images/fullStar.png'
@@ -71,7 +75,7 @@ function imageRate(n) {
 
 
 function resetStars(){
-    allStars.forEach((star) =>{
+    rateStars.forEach((star) =>{
         star.src ='./images/star.png'
     })
 }
@@ -85,16 +89,18 @@ function addComment(e) {
     e.target.reset()
 }
 
+//
+
 function persistStars(movie, num){
     const rating = { rating: num}
-    fetch(`http://localhost:3000/images/${movie}`, {
+    fetch(`http://localhost:3000/movies/${movie}`, {
         method: 'PATCH',
         headers: {"Content-Type": "application/json",
         Accept: "application/json"},
         body: JSON.stringify(rating)          
     })
     .then(resp => resp.json())
-    .then(movie => imageRate(movie.rating))
+    .then(movie => movieRate(movie.rating))
 }
 
 function persistComment(content){
@@ -102,14 +108,13 @@ function persistComment(content){
         method: "POST",
         headers: {"Content-Type":"application/json",
         Accept:"application/json"},
-        body: JSON.stringify({imageId: currentMovieNum, content: content})            
+        body: JSON.stringify({movieId: currentMovieNum, content: content})            
     })
 }
 
-getImage()
 
 
-function postComments(comments) {
+function featureComments(comments) {
     commentList.replaceChildren()
     comments.forEach((comment)=>{
         const li = document.createElement("li")
@@ -117,6 +122,9 @@ function postComments(comments) {
         commentList.append(li)
     })
 }
+
+//Below using an external API called watchmode to retrieve movie information 
+//based on IMBD number of movie as well as 3 similar title reccomendations
 
 function getMovieInfo(movie){
     let url = `https://api.watchmode.com/v1/title/${movie}/details/?apiKey=BWN7PlyQHdXKacWeTRGyRkrOhSwpcT2XKLuEHgVC`
@@ -150,9 +158,16 @@ function handleSimilarTitles(movie) {
     li.appendChild(p)
     similarTitlesBox.append(li)
 }
-const plot = document.getElementById('plot')
 
 function plotTODOM(movie){
     console.log(movie)
     plot.textContent = movie['plot_overview']
 }
+
+
+// Below invoking the get movie as soon as page loads
+
+getMovie()
+
+
+})

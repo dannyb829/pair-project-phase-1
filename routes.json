@@ -1,3 +1,3 @@
 {
-    "/images/:id": "/images/:id?_embed=comments"
+    "/movies/:id": "/movies/:id?_embed=comments"
 }

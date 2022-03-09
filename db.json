@@ -1,5 +1,5 @@
 {
-  "images": [
+  "movies": [
     {
       "id": 1,
       "title": "The GodFather part 1",
@@ -74,51 +74,51 @@
   "comments": [
     {
       "id": 1,
-      "imageId": 9,
+      "movieId": 9,
       "content": "Eric123 says: Great Movie"
     },
     {
       "id": 2,
-      "imageId": 9,
+      "movieId": 9,
       "content": "Josh.0 says: This Movie was trash"
     },
     {
-      "imageId": 2,
+      "movieId": 2,
       "content": "danny says: this was great!",
       "id": 3
     },
     {
-      "imageId": 1,
+      "movieId": 1,
       "content": "danielBri says: instant classic!",
       "id": 4
     },
     {
-      "imageId": 3,
+      "movieId": 3,
       "content": "kanye4prez says: l'keith stansfeild or however your spell his name, was phenomenal in this movie",
       "id": 5
     },
     {
-      "imageId": 4,
+      "movieId": 4,
       "content": "realNapster65 says: never saw it so idk",
       "id": 6
     },
     {
-      "imageId": 4,
+      "movieId": 4,
       "content": "vote4pedro says: GOSH",
       "id": 7
     },
     {
-      "imageId": 6,
+      "movieId": 6,
       "content": "cheezDoodle89 says: dont really know",
       "id": 8
     },
     {
-      "imageId": 5,
+      "movieId": 5,
       "content": "wagwanBaiGT says: i watched this a few times it was dope",
       "id": 9
     },
     {
-      "imageId": 1,
+      "movieId": 1,
       "content": "thomas says: never seen it",
       "id": 10
     }

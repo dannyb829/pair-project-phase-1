@@ -88,11 +88,13 @@ footer {
 }
 
 #change-movie {
-    position: relative;
+    position: absolute;
     border: .001px solid;
     border-radius: 10px;
-    left: 58%;
-    margin-top: 390px;
+    width: 70px;
+    height:70px;
+    margin-left: 89%;
+    bottom: 180px; 
     background-color: #681212;
     color: #f1bd22;
 }

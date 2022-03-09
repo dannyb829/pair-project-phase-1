@@ -119,7 +119,7 @@ function postComments(comments) {
 }
 
 function getMovieInfo(movie){
-    let url = `https://api.watchmode.com/v1/title/${movie}/details/?apiKey=5jV1DNGYzAhstZkjnfF0iazOjaiz7MQ4r9y8k0S8`
+    let url = `https://api.watchmode.com/v1/title/${movie}/details/?apiKey=BWN7PlyQHdXKacWeTRGyRkrOhSwpcT2XKLuEHgVC`
     
     fetch(url, { method: 'Get' })
     .then((res) => res.json())
@@ -134,7 +134,7 @@ function getMovieInfo(movie){
 function getSimilarTitles (simTitles) {
     similarTitlesBox.replaceChildren()
     for(let i = 0; i < 3; i++){
-        fetch(`https://api.watchmode.com/v1/title/${simTitles[i]}/details/?apiKey=5jV1DNGYzAhstZkjnfF0iazOjaiz7MQ4r9y8k0S8`, {method: 'GET'})
+        fetch(`https://api.watchmode.com/v1/title/${simTitles[i]}/details/?apiKey=BWN7PlyQHdXKacWeTRGyRkrOhSwpcT2XKLuEHgVC`, {method: 'GET'})
         .then(resp => resp.json())
         .then(movie => handleSimilarTitles(movie))
     }

@@ -4,7 +4,7 @@ Welcome to the world of some of your favorite titles and their plots!
 
 Let us know what you think of these ten movies.. these timeless classics will be the talk of all time!!!
 
-# Rate
+# RATE
 Thess movies using our advanced star spangled rating system!!
 
 # VENTURE 

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 // Grabing the elements we need to operate on
-
 const thoughtsForm = document.querySelector('#thoughts-form')
 const imageBox = document.getElementById('image-box')
 const cycleButton = document.getElementById('change-movie')
@@ -17,14 +16,17 @@ const movieInfoBox = document.getElementById('movie-info-box');
 let movieCount = 0
 // currentMovieNum is a reference to the current displaying gif
 let currentMovieNum
-// currentMovieId is a reference to the currently displayed movies IMBD number
-let currentMovieId
+
+//URLS to shave down code as well as presaved API key just incase we use our quota and need a new one
+const BASE_URL = "http://localhost:3000"
+const API_KEY = "kyvBMFRFz9rtprGZi5TgvXDnKBdWhyv40iaxqk5X"
+const API_URL = "https://api.watchmode.com/v1/title"
 
 
 
 // Making all our submitables and clickables clickable and submitable ! 
 
-thoughtsForm.addEventListener('submit',(e) => addComment(e))
+thoughtsForm.addEventListener('submit',(e) => addNewComment(e))
 
 
 rateStars.forEach(star => star.addEventListener('click', (e) => {
@@ -36,15 +38,24 @@ rateStars.forEach(star => star.addEventListener('click', (e) => {
 
 cycleButton.addEventListener('click', getMovie)
 
-
+// congfiguration headers to shave down some lines of code
+const createConfig = (method, body = {}) => {
+    const newConfig = {
+        method,
+        headers: {"Content-Type": "application/json",
+                  Accept: "application/json"},
+        body: JSON.stringify(body)          
+    }
+    return newConfig
+}
 // All our functions, we can definately get clearer more understandable function and variable names
 
 function getMovie(){
     movieCount += 1
-    if (movieCount >= 10) {
+    if (movieCount > 10) {
         movieCount = 1
     } 
-    fetch(`http://localhost:3000/movies/${movieCount}`)
+    fetch(`${BASE_URL}/movies/${movieCount}`)
     .then(resp => resp.json())
     .then(movie => {
         featureMovie(movie)
@@ -57,7 +68,6 @@ function featureMovie(movie){
     imageBox.src = movie.gifURL
     movieTextHeader.textContent = movie.title
     currentMovieNum = movie.id
-    currentMovieId = movie.IMBD
     movieRate(movie.rating)
     getMovieInfo(movie.IMBD)
 }
@@ -80,7 +90,7 @@ function resetStars(){
     })
 }
 
-function addComment(e) {
+function addNewComment(e) {
     e.preventDefault()
     const li = document.createElement("li");
     li.innerText = usernameInput.value + " says: " + commentInput.value;
@@ -89,29 +99,17 @@ function addComment(e) {
     e.target.reset()
 }
 
-//
 
 function persistStars(movie, num){
     const rating = { rating: num}
-    fetch(`http://localhost:3000/movies/${movie}`, {
-        method: 'PATCH',
-        headers: {"Content-Type": "application/json",
-        Accept: "application/json"},
-        body: JSON.stringify(rating)          
-    })
+    fetch(`${BASE_URL}/movies/${movie}`, createConfig('PATCH', rating))
     .then(resp => resp.json())
     .then(movie => movieRate(movie.rating))
 }
 
 function persistComment(content){
-    fetch('http://localhost:3000/comments', {
-        method: "POST",
-        headers: {"Content-Type":"application/json",
-        Accept:"application/json"},
-        body: JSON.stringify({movieId: currentMovieNum, content: content})            
-    })
+    fetch(`${BASE_URL}/comments`, createConfig('POST', {movieId: currentMovieNum, content: content}))
 }
-
 
 
 function featureComments(comments) {
@@ -127,9 +125,7 @@ function featureComments(comments) {
 //based on IMBD number of movie as well as 3 similar title reccomendations
 
 function getMovieInfo(movie){
-    let url = `https://api.watchmode.com/v1/title/${movie}/details/?apiKey=BWN7PlyQHdXKacWeTRGyRkrOhSwpcT2XKLuEHgVC`
-    
-    fetch(url, { method: 'Get' })
+    fetch(`${API_URL}/${movie}/details/?apiKey=${API_KEY}`)
     .then((res) => res.json())
     .then((json) => {
         plotTODOM(json)
@@ -137,12 +133,15 @@ function getMovieInfo(movie){
     });
 }
 
-
+// Random number generator to randomize similar titles instead of printing just the first three as before
+const randomNumber = (max) => {
+    return Math.floor(Math.random() * max);
+  }
 
 function getSimilarTitles (simTitles) {
     similarTitlesBox.replaceChildren()
     for(let i = 0; i < 3; i++){
-        fetch(`https://api.watchmode.com/v1/title/${simTitles[i]}/details/?apiKey=BWN7PlyQHdXKacWeTRGyRkrOhSwpcT2XKLuEHgVC`, {method: 'GET'})
+        fetch(`${API_URL}/${simTitles[randomNumber(simTitles.length)]}/details/?apiKey=${API_KEY}`)
         .then(resp => resp.json())
         .then(movie => handleSimilarTitles(movie))
     }
@@ -160,7 +159,6 @@ function handleSimilarTitles(movie) {
 }
 
 function plotTODOM(movie){
-    console.log(movie)
     plot.textContent = movie['plot_overview']
 }
 
@@ -168,6 +166,7 @@ function plotTODOM(movie){
 // Below invoking the get movie as soon as page loads
 
 getMovie()
+
 
 
 })

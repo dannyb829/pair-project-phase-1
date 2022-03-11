@@ -10,6 +10,19 @@ Thess movies using our advanced star spangled rating system!!
 # VENTURE 
 To your next movie night with our helpful movie suggestions based on the featured movie title!!
 
+# HOW TO USE
+This being a low budget project, the only way to use this web app is to start a json server and watch db.json with its routes using the following command in the pair-proj-1 directory. 
+
+json-server --watch db.json --routes routes.json
+
+then open the proj-1.html file in your web browser
+
+comment away!
+
+rate away!
+
+Enjoy the page!
+
 # WORK BY DANIEL BRITO AND THOMAS KINSELLA
 
 Special shout out to the people at watchmode for making a dope API
